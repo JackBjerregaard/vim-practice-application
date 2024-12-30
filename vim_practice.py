@@ -132,6 +132,7 @@ class VimPracticeApp:
             text=f"Progress: 🔴 {not_learned} | 🟡 {learning} | 🟢 {learned}",
             fg="#ffffff"
         )
+        self.root.update_idletasks()
 
     def display_task(self):
         """Display the next task."""
@@ -148,6 +149,7 @@ class VimPracticeApp:
             self.feedback_label.config(text="")
             self.hint_label.config(text="")
             self.solution_label.config(text="")
+            self.update_progress()  # Ensure progress is updated when displaying a task
         else:
             self.end_practice()
 
@@ -170,6 +172,8 @@ class VimPracticeApp:
                     self.green_tasks.append(self.current_task)
             elif correct_count > 0:
                 self.progress_tracker[task] = "yellow"
+            else:
+                self.progress_tracker[task] = "red"
 
             self.feedback_label.config(
                 text=f"Correct! Task: {task} | Command: {correct_command}", fg="#57a64a"
@@ -178,29 +182,36 @@ class VimPracticeApp:
             if all(status == "green" for status in self.progress_tracker.values()):
                 self.end_practice()
             else:
-                # Show the correct text for a brief moment before moving on
                 self.root.after(200, self.display_task)
         else:
+            self.progress_tracker[task] = "red"
             self.feedback_label.config(text=f"Incorrect! Try again or use a hint.", fg="#f44747")
+
+        self.update_progress()  # Update progress after submitting command
 
     def use_hint(self):
         task = self.current_task["task"]
         self.performance[task]["required"] = max(self.performance[task]["required"], 5)
         self.hint_label.config(text=f"Hint: {self.current_task['hint']}")
+        self.update_progress()  # Update progress when hint is used
 
     def use_solution(self):
         task = self.current_task["task"]
         self.performance[task]["required"] = max(self.performance[task]["required"], 7)
         self.solution_label.config(text=f"Solution: {self.current_task['command']}")
+        self.update_progress()  # Update progress when solution is used
 
     def process_key(self, event):
         """Process all keypress events and detect Ctrl combinations."""
-        is_ctrl_pressed = event.state & 0x4
-        if is_ctrl_pressed:
-            keybind = f"CTRL-{event.keysym.upper()}"
-            self.command_entry.delete(0, tk.END)
-            self.command_entry.insert(0, keybind)
-            self.submit_command()
+        if event.state & 0x0004 and event.keysym != "Control_L" and event.keysym != "Control_R":
+            if event.keysym == "Alt_R":
+                # AltGr (right alt) should behave as it normally does
+                event.keysym = "ISO_Level3_Shift"
+            else:
+                keybind = f"CTRL-{event.keysym}"
+                self.command_entry.delete(0, tk.END)
+                self.command_entry.insert(0, keybind)
+                self.submit_command()
 
     def go_back_to_categories(self):
         self.task_label.pack_forget()
@@ -214,6 +225,7 @@ class VimPracticeApp:
         self.category_label.pack(pady=10)
         self.category_list.pack(pady=10)
         self.start_button.pack(pady=10)
+        self.update_progress()  # Ensure progress is updated when going back
 
     def end_practice(self):
         """Return to the main menu after completing a section."""
@@ -234,7 +246,6 @@ class VimPracticeApp:
         self.progress_tracker.clear()
 
         self.go_back_to_categories()
-
 
 if __name__ == "__main__":
     commands = load_commands("commands.json")

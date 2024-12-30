@@ -35,7 +35,7 @@ The following command categories are supported:
 ## Getting Started
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/JackBjerregaard/vim-practice-application.git
    ```
 2. Navigate to the project directory:
    ```bash
