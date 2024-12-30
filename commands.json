@@ -1,0 +1,65 @@
+{
+  "Motion Commands": [
+    { "task": "Move to the start of the line", "command": "0", "hint": "Use '0' to jump to the start of the line." },
+    { "task": "Move to the first non-blank character of the line", "command": "^", "hint": "Use '^' to move to the first non-blank character of the line." },
+    { "task": "Move to the last character of the line", "command": "$", "hint": "Use '$' to jump to the end of the line." },
+    { "task": "Move to the top of the file", "command": "gg", "hint": "Use 'gg' to jump to the top of the file." },
+    { "task": "Move to the bottom of the file", "command": "G", "hint": "Use 'G' to jump to the bottom of the file." },
+    { "task": "Move up 5 lines", "command": "5k", "hint": "Use a number with 'k' to move up multiple lines." },
+    { "task": "Move down 5 lines", "command": "5j", "hint": "Use a number with 'j' to move down multiple lines." },
+    { "task": "Move to the middle of the screen", "command": "M", "hint": "Use 'M' to move to the middle of the screen." },
+    { "task": "Move to the next paragraph", "command": "}", "hint": "Use '}' to move to the next paragraph or block." },
+    { "task": "Move to the previous paragraph", "command": "{", "hint": "Use '{' to move to the previous paragraph or block." },
+    { "task": "Move to matching parentheses or brackets", "command": "%", "hint": "Use '%' to move to the matching character." },
+    { "task": "Scroll down half a page", "command": "CTRL-D", "hint": "Use 'CTRL-D' to scroll down by half a page." },
+    { "task": "Scroll up half a page", "command": "CTRL-U", "hint": "Use 'CTRL-U' to scroll up by half a page." },
+    { "task": "Scroll down one page", "command": "CTRL-F", "hint": "Use 'CTRL-F' to scroll down one page." },
+    { "task": "Scroll up one page", "command": "CTRL-B", "hint": "Use 'CTRL-B' to scroll up one page." },
+    { "task": "Center the cursor on the screen", "command": "zz", "hint": "Use 'zz' to center the cursor on the screen." },
+    { "task": "Move to the start of the word", "command": "w", "hint": "Use 'w' to jump forward to the start of the next word." },
+    { "task": "Move to the end of the word", "command": "e", "hint": "Use 'e' to jump forward to the end of the current word." },
+    { "task": "Move to the start of the word backward", "command": "b", "hint": "Use 'b' to jump backward to the start of the word." },
+    { "task": "Move to the end of the word backward", "command": "ge", "hint": "Use 'ge' to jump backward to the end of the word." },
+    { "task": "Move to the line above in wrapped text", "command": "gk", "hint": "Use 'gk' to move to the previous line in wrapped text." },
+    { "task": "Move to the line below in wrapped text", "command": "gj", "hint": "Use 'gj' to move to the next line in wrapped text." }
+  ],
+  "Insert Commands": [
+    { "task": "Insert before the cursor", "command": "i", "hint": "Use 'i' to start inserting text before the cursor." },
+    { "task": "Insert at the beginning of the line", "command": "I", "hint": "Use 'I' to start inserting text at the beginning of the line." },
+    { "task": "Append after the cursor", "command": "a", "hint": "Use 'a' to append text after the cursor." },
+    { "task": "Append at the end of the line", "command": "A", "hint": "Use 'A' to append text at the end of the line." },
+    { "task": "Open a new line below the current line", "command": "o", "hint": "Use 'o' to insert a new line below." },
+    { "task": "Open a new line above the current line", "command": "O", "hint": "Use 'O' to insert a new line above." },
+    { "task": "Append at the end of the word", "command": "ea", "hint": "Use 'ea' to append text at the end of the current word." }
+  ],
+  "Editing Commands": [
+    { "task": "Replace a single character", "command": "rX", "hint": "Use 'r' followed by a character to replace the current character." },
+    { "task": "Replace text until escape is pressed", "command": "R", "hint": "Use 'R' to start replacing text until ESC is pressed." },
+    { "task": "Undo the last change", "command": "u", "hint": "Use 'u' to undo the last change." },
+    { "task": "Redo the last undone change", "command": "CTRL-R", "hint": "Use 'CTRL-R' to redo the last undone change." },
+    { "task": "Join the current line with the next", "command": "J", "hint": "Use 'J' to join the current line with the next line." },
+    { "task": "Transpose two characters", "command": "xp", "hint": "Use 'xp' to transpose the character under the cursor and the next one." },
+    { "task": "Repeat the last command", "command": ".", "hint": "Use '.' to repeat the last command." },
+    { "task": "Change text from cursor to the end of the line", "command": "C", "hint": "Use 'C' to change text from the cursor to the end of the line." },
+    { "task": "Delete the current line", "command": "dd", "hint": "Use 'dd' to delete the entire current line." },
+    { "task": "Delete from the cursor to the end of the line", "command": "D", "hint": "Use 'D' to delete from the cursor to the end of the line." }
+  ],
+  "Search Commands": [
+    { "task": "Search for a pattern forward", "command": "/pattern", "hint": "Use '/pattern' to search forward for a pattern." },
+    { "task": "Search for a pattern backward", "command": "?pattern", "hint": "Use '?pattern' to search backward for a pattern." },
+    { "task": "Repeat the last search forward", "command": "n", "hint": "Use 'n' to repeat the last search forward." },
+    { "task": "Repeat the last search backward", "command": "N", "hint": "Use 'N' to repeat the last search backward." },
+    { "task": "Remove search highlights", "command": ":noh", "hint": "Use ':noh' to remove search highlights." }
+  ],
+  "Visual Mode Commands": [
+    { "task": "Start visual mode", "command": "v", "hint": "Use 'v' to start visual mode." },
+    { "task": "Start visual line mode", "command": "V", "hint": "Use 'V' to start visual line mode." },
+    { "task": "Start visual block mode", "command": "CTRL-V", "hint": "Use 'CTRL-V' to start visual block mode." }
+  ],
+  "Registers": [
+    { "task": "Yank into register x", "command": "\"xy", "hint": "Use '\"xy' to yank into register x." },
+    { "task": "Paste from register x", "command": "\"xp", "hint": "Use '\"xp' to paste from register x." },
+    { "task": "Yank into system clipboard", "command": "\"+y", "hint": "Use '\"+y' to yank into the system clipboard." },
+    { "task": "Paste from system clipboard", "command": "\"+p", "hint": "Use '\"+p' to paste from the system clipboard." }
+  ]
+}
