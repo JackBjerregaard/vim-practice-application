@@ -8,16 +8,6 @@ from collections import deque
 def load_commands(file_path):
     """
     Load Vim commands database from a JSON file.
-
-    Args:
-        file_path (str): Path to the JSON file containing the commands database.
-
-    Returns:
-        dict: A dictionary containing the commands database.
-
-    Raises:
-        FileNotFoundError: If the file is not found.
-        json.JSONDecodeError: If the JSON file is invalid.
     """
     try:
         with open(file_path, "r") as f:
@@ -39,7 +29,6 @@ class VimPracticeApp:
         self.performance = {}
         self.progress_tracker = {}
         self.green_tasks = []
-        self.current_modifier = None  # Track modifier keys (e.g., Ctrl)
 
         # Configure the root window
         self.root.title("Vim Practice Application")
@@ -98,10 +87,6 @@ class VimPracticeApp:
         # Key bindings for hints and solutions
         self.root.bind("<Up>", lambda event: self.use_hint())
         self.root.bind("<Right>", lambda event: self.use_solution())
-
-        # Modifier keys (e.g., Ctrl)
-        self.root.bind("<KeyPress-Control_L>", lambda event: self.set_modifier("Control"))
-        self.root.bind("<KeyRelease-Control_L>", lambda event: self.clear_modifier())
         self.root.bind("<KeyPress>", self.process_key)
 
     def start_practice(self):
@@ -189,19 +174,14 @@ class VimPracticeApp:
             self.feedback_label.config(
                 text=f"Correct! Task: {task} | Command: {correct_command}", fg="#57a64a"
             )
+
+            if all(status == "green" for status in self.progress_tracker.values()):
+                self.end_practice()
+            else:
+                # Show the correct text for a brief moment before moving on
+                self.root.after(200, self.display_task)
         else:
             self.feedback_label.config(text=f"Incorrect! Try again or use a hint.", fg="#f44747")
-
-        if self.progress_tracker[task] != "green":
-            self.tasks.append(self.current_task)
-
-        self.update_progress()
-
-        # Check if all tasks are green
-        if all(status == "green" for status in self.progress_tracker.values()):
-            self.end_practice()
-        else:
-            self.display_task()
 
     def use_hint(self):
         task = self.current_task["task"]
@@ -213,20 +193,14 @@ class VimPracticeApp:
         self.performance[task]["required"] = max(self.performance[task]["required"], 7)
         self.solution_label.config(text=f"Solution: {self.current_task['command']}")
 
-    def set_modifier(self, key):
-        self.current_modifier = key
-
-    def clear_modifier(self):
-        self.current_modifier = None
-
     def process_key(self, event):
-        if self.current_modifier == "Control":
-            if event.keysym.lower() == "u":
-                self.command_entry.insert(tk.END, "CTRL-U")
-                self.submit_command()
-            elif event.keysym.lower() == "r":
-                self.command_entry.insert(tk.END, "CTRL-R")
-                self.submit_command()
+        """Process all keypress events and detect Ctrl combinations."""
+        is_ctrl_pressed = event.state & 0x4
+        if is_ctrl_pressed:
+            keybind = f"CTRL-{event.keysym.upper()}"
+            self.command_entry.delete(0, tk.END)
+            self.command_entry.insert(0, keybind)
+            self.submit_command()
 
     def go_back_to_categories(self):
         self.task_label.pack_forget()
@@ -262,7 +236,6 @@ class VimPracticeApp:
         self.go_back_to_categories()
 
 
-# Ensure that the `commands.json` file is read and tested as input.
 if __name__ == "__main__":
     commands = load_commands("commands.json")
     root = tk.Tk()
