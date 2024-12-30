@@ -32,24 +32,6 @@ The following command categories are supported:
 - **Right Arrow**: Show the solution for the current task.
 - **Ctrl + Key Combinations**: Practice commands requiring control keys (e.g., Ctrl-U, Ctrl-R).
 
-## Getting Started
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/JackBjerregaard/vim-practice-application.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd vim-practice-app
-   ```
-3. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Run the application:
-   ```bash
-   python vim_practice_app.py
-   ```
-
 ## Commands
 All commands in the application are stored in `commands.json`. This file contains tasks, commands, hints, and examples for practice. It covers commands from both Vim's roadmap and a comprehensive cheat sheet to ensure complete coverage.
 
