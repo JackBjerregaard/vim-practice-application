@@ -67,7 +67,7 @@ To start the Vim Practice Application, follow these steps:
 
 2. **Run the Application**:
    - Navigate to the correct directory
-   - In the terminal run the pythone file:
+   - In the terminal run the python file:
      ```bash
      python3 vim_practice.py
      ```
