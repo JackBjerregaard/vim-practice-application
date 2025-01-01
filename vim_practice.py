@@ -133,24 +133,23 @@ class VimPracticeApp:
             fg="#ffffff"
         )
         self.root.update_idletasks()
-
     def display_task(self):
-        """Display the next task with randomization and weighting."""
-        if self.tasks or self.green_tasks:
-            all_tasks = list(self.tasks) + self.green_tasks
+        """Display the next task with proper randomization."""
+        if self.tasks or any(status != "green" for status in self.progress_tracker.values()):
+            # Rebuild task list with all yellow and red tasks
+            all_tasks = [t for t in self.tasks if self.progress_tracker[t["task"]] != "green"]
 
-            # Weighted shuffle: higher penalty tasks are more likely to appear
+            # Weighted shuffle: Tasks with higher penalties appear more frequently
             weighted_tasks = []
             for task in all_tasks:
                 penalty = self.performance[task["task"]]["required"] - self.performance[task["task"]]["correct"]
-                weight = max(1, penalty)  # Ensure each task gets at least 1 chance
-                weighted_tasks.extend([task] * weight)  # Duplicate task based on weight
+                weight = max(1, penalty)  # Ensure at least one weight
+                weighted_tasks.extend([task] * weight)
 
             random.shuffle(weighted_tasks)  # Shuffle the weighted list
 
-            # Pick the next task
+            # Pick the next task randomly
             self.current_task = random.choice(weighted_tasks)
-            self.tasks = deque(t for t in all_tasks if t != self.current_task)  # Rebuild remaining tasks
 
             # Display the selected task
             self.task_label.config(text=f"Task: {self.current_task['task']}")
@@ -160,7 +159,7 @@ class VimPracticeApp:
             self.feedback_label.config(text="")
             self.hint_label.config(text="")
             self.solution_label.config(text="")
-            self.update_progress()  # Ensure progress is updated
+            self.update_progress()  # Update the progress tracker display
         else:
             self.end_practice()
 
@@ -186,7 +185,8 @@ class VimPracticeApp:
                 # Task completed (green status)
                 self.progress_tracker[task] = "green"
                 if task not in self.green_tasks:
-                    self.green_tasks.append(self.current_task)
+                    self.green_tasks.append(self.current_task)  # Add to green tasks
+                self.tasks = deque(t for t in self.tasks if t["task"] != task)  # Remove from active tasks
             elif correct_count > 0:
                 # Task in progress (yellow status)
                 self.progress_tracker[task] = "yellow"
@@ -199,7 +199,7 @@ class VimPracticeApp:
                 text=f"Correct! Task: {task} | Command: {correct_command}", fg="#57a64a"
             )
 
-            # Display next task or check for section completion
+            # Check for completion or display next task
             if all(status == "green" for status in self.progress_tracker.values()):
                 self.end_practice()
             else:
@@ -218,6 +218,7 @@ class VimPracticeApp:
 
         # Update progress tracker
         self.update_progress()
+
 
     def use_hint(self):
         task = self.current_task["task"]
@@ -280,9 +281,6 @@ class VimPracticeApp:
             self.progress_tracker.clear()
 
             self.go_back_to_categories()
-        else:
-            # Debug: Print progress if incomplete
-            print("Not all tasks are green. Continuing practice.")
 
 
 if __name__ == "__main__":
