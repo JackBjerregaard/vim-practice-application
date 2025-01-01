@@ -63,7 +63,6 @@ To start the Vim Practice Application, follow these steps:
    - Ensure you have the application files on your machine. If hosted on a repository (e.g., GitHub), clone it:
      ```bash
      git clone https://github.com/your-repo/vim-practice-app.git
-     cd vim-practice-app
      ```
 
 2. **Run the Application**:
