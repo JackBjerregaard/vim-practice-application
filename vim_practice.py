@@ -135,13 +135,24 @@ class VimPracticeApp:
         self.root.update_idletasks()
 
     def display_task(self):
-        """Display the next task."""
+        """Display the next task with randomization and weighting."""
         if self.tasks or self.green_tasks:
-            if self.tasks:
-                self.current_task = self.tasks.popleft()
-            elif self.green_tasks:
-                self.current_task = random.choice(self.green_tasks)
+            all_tasks = list(self.tasks) + self.green_tasks
 
+            # Weighted shuffle: higher penalty tasks are more likely to appear
+            weighted_tasks = []
+            for task in all_tasks:
+                penalty = self.performance[task["task"]]["required"] - self.performance[task["task"]]["correct"]
+                weight = max(1, penalty)  # Ensure each task gets at least 1 chance
+                weighted_tasks.extend([task] * weight)  # Duplicate task based on weight
+
+            random.shuffle(weighted_tasks)  # Shuffle the weighted list
+
+            # Pick the next task
+            self.current_task = random.choice(weighted_tasks)
+            self.tasks = deque(t for t in all_tasks if t != self.current_task)  # Rebuild remaining tasks
+
+            # Display the selected task
             self.task_label.config(text=f"Task: {self.current_task['task']}")
             self.text_area.delete(1.0, tk.END)
             self.text_area.insert(tk.END, self.current_task.get("example", ""))
@@ -149,7 +160,7 @@ class VimPracticeApp:
             self.feedback_label.config(text="")
             self.hint_label.config(text="")
             self.solution_label.config(text="")
-            self.update_progress()  # Ensure progress is updated when displaying a task
+            self.update_progress()  # Ensure progress is updated
         else:
             self.end_practice()
 
@@ -159,45 +170,64 @@ class VimPracticeApp:
         task = self.current_task["task"]
         correct_command = self.current_task["command"]
 
+        # Increment attempts
         self.performance[task]["attempts"] += 1
 
         if user_input.lower() == correct_command.lower():
+            # Correct answer
             self.performance[task]["correct"] += 1
             correct_count = self.performance[task]["correct"]
             required = self.performance[task]["required"]
 
+            # Debug: Print task status
+            print(f"Task: {task} | Correct: {correct_count} | Required: {required}")
+
             if correct_count >= required:
+                # Task completed (green status)
                 self.progress_tracker[task] = "green"
                 if task not in self.green_tasks:
                     self.green_tasks.append(self.current_task)
             elif correct_count > 0:
+                # Task in progress (yellow status)
                 self.progress_tracker[task] = "yellow"
             else:
+                # Task not started or reset
                 self.progress_tracker[task] = "red"
 
+            # Provide feedback
             self.feedback_label.config(
                 text=f"Correct! Task: {task} | Command: {correct_command}", fg="#57a64a"
             )
 
+            # Display next task or check for section completion
             if all(status == "green" for status in self.progress_tracker.values()):
                 self.end_practice()
             else:
                 self.root.after(200, self.display_task)
+
         else:
+            # Incorrect answer
+            self.performance[task]["required"] += 2  # Penalty: +2 required correct answers
+            self.performance[task]["correct"] = 0  # Reset correct streak
             self.progress_tracker[task] = "red"
+
+            # Debug: Print penalty information
+            print(f"Incorrect! Task: {task} | Required now: {self.performance[task]['required']}")
+
             self.feedback_label.config(text=f"Incorrect! Try again or use a hint.", fg="#f44747")
 
-        self.update_progress()  # Update progress after submitting command
+        # Update progress tracker
+        self.update_progress()
 
     def use_hint(self):
         task = self.current_task["task"]
-        self.performance[task]["required"] = max(self.performance[task]["required"], 5)
+        self.performance[task]["required"] = max(self.performance[task]["required"] + 1, 5)
         self.hint_label.config(text=f"Hint: {self.current_task['hint']}")
         self.update_progress()  # Update progress when hint is used
 
     def use_solution(self):
         task = self.current_task["task"]
-        self.performance[task]["required"] = max(self.performance[task]["required"], 7)
+        self.performance[task]["required"] = max(self.performance[task]["required"] + 1, 7)
         self.solution_label.config(text=f"Solution: {self.current_task['command']}")
         self.update_progress()  # Update progress when solution is used
 
@@ -229,27 +259,36 @@ class VimPracticeApp:
 
     def end_practice(self):
         """Return to the main menu after completing a section."""
-        self.task_label.pack_forget()
-        self.text_area.pack_forget()
-        self.command_entry.pack_forget()
-        self.hint_label.pack_forget()
-        self.solution_label.pack_forget()
-        self.feedback_label.pack_forget()
-        self.back_button.pack_forget()
+        # Ensure all tasks are green before completing the section
+        if all(status == "green" for status in self.progress_tracker.values()):
+            # Proceed to section completion
+            self.task_label.pack_forget()
+            self.text_area.pack_forget()
+            self.command_entry.pack_forget()
+            self.hint_label.pack_forget()
+            self.solution_label.pack_forget()
+            self.feedback_label.pack_forget()
+            self.back_button.pack_forget()
 
-        messagebox.showinfo("Section Complete", "You have completed this section!")
+            messagebox.showinfo("Section Complete", "You have completed this section!")
 
-        self.tasks.clear()
-        self.green_tasks.clear()
-        self.current_task = None
-        self.performance.clear()
-        self.progress_tracker.clear()
+            # Reset all trackers for a clean state
+            self.tasks.clear()
+            self.green_tasks.clear()
+            self.current_task = None
+            self.performance.clear()
+            self.progress_tracker.clear()
 
-        self.go_back_to_categories()
+            self.go_back_to_categories()
+        else:
+            # Debug: Print progress if incomplete
+            print("Not all tasks are green. Continuing practice.")
+
 
 if __name__ == "__main__":
     commands = load_commands("commands.json")
     root = tk.Tk()
     app = VimPracticeApp(root, commands)
     root.mainloop()
+
 
