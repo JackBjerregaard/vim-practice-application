@@ -1,65 +1,709 @@
 {
-  "Motion Commands": [
-    { "task": "Move to the start of the line", "command": "0", "hint": "Use '0' to jump to the start of the line." },
-    { "task": "Move to the first non-blank character of the line", "command": "^", "hint": "Use '^' to move to the first non-blank character of the line." },
-    { "task": "Move to the last character of the line", "command": "$", "hint": "Use '$' to jump to the end of the line." },
-    { "task": "Move to the top of the file", "command": "gg", "hint": "Use 'gg' to jump to the top of the file." },
-    { "task": "Move to the bottom of the file", "command": "G", "hint": "Use 'G' to jump to the bottom of the file." },
-    { "task": "Move up 5 lines", "command": "5k", "hint": "Use a number with 'k' to move up multiple lines." },
-    { "task": "Move down 5 lines", "command": "5j", "hint": "Use a number with 'j' to move down multiple lines." },
-    { "task": "Move to the middle of the screen", "command": "M", "hint": "Use 'M' to move to the middle of the screen." },
-    { "task": "Move to the next paragraph", "command": "}", "hint": "Use '}' to move to the next paragraph or block." },
-    { "task": "Move to the previous paragraph", "command": "{", "hint": "Use '{' to move to the previous paragraph or block." },
-    { "task": "Move to matching parentheses or brackets", "command": "%", "hint": "Use '%' to move to the matching character." },
-    { "task": "Scroll down half a page", "command": "CTRL-D", "hint": "Use 'CTRL-D' to scroll down by half a page." },
-    { "task": "Scroll up half a page", "command": "CTRL-U", "hint": "Use 'CTRL-U' to scroll up by half a page." },
-    { "task": "Scroll down one page", "command": "CTRL-F", "hint": "Use 'CTRL-F' to scroll down one page." },
-    { "task": "Scroll up one page", "command": "CTRL-B", "hint": "Use 'CTRL-B' to scroll up one page." },
-    { "task": "Center the cursor on the screen", "command": "zz", "hint": "Use 'zz' to center the cursor on the screen." },
-    { "task": "Move to the start of the word", "command": "w", "hint": "Use 'w' to jump forward to the start of the next word." },
-    { "task": "Move to the end of the word", "command": "e", "hint": "Use 'e' to jump forward to the end of the current word." },
-    { "task": "Move to the start of the word backward", "command": "b", "hint": "Use 'b' to jump backward to the start of the word." },
-    { "task": "Move to the end of the word backward", "command": "ge", "hint": "Use 'ge' to jump backward to the end of the word." },
-    { "task": "Move to the line above in wrapped text", "command": "gk", "hint": "Use 'gk' to move to the previous line in wrapped text." },
-    { "task": "Move to the line below in wrapped text", "command": "gj", "hint": "Use 'gj' to move to the next line in wrapped text." }
+  "Global": [
+    {
+      "task": "Open help for keyword",
+      "command": ":h[elp] keyword",
+      "hint": "Use ':help keyword' to see Vim's help for that keyword."
+    },
+    {
+      "task": "Save file as",
+      "command": ":sav[eas] file",
+      "hint": "Use ':saveas newfile' to write your current buffer to a new file."
+    },
+    {
+      "task": "Close current pane",
+      "command": ":clo[se]",
+      "hint": "Use ':close' to close the split pane under your cursor."
+    },
+    {
+      "task": "Open a terminal window",
+      "command": ":ter[minal]",
+      "hint": "Use ':terminal' to open an embedded shell in Vim."
+    },
+    {
+      "task": "Open man page for word under cursor",
+      "command": "K",
+      "hint": "Press 'K' in normal mode when your cursor is on a word to open its man page (if available)."
+    },
+    {
+      "task": "Learn first Vim commands",
+      "command": "vimtutor",
+      "hint": "Run 'vimtutor' in your terminal to learn basic Vim usage interactively."
+    }
   ],
-  "Insert Commands": [
-    { "task": "Insert before the cursor", "command": "i", "hint": "Use 'i' to start inserting text before the cursor." },
-    { "task": "Insert at the beginning of the line", "command": "I", "hint": "Use 'I' to start inserting text at the beginning of the line." },
-    { "task": "Append after the cursor", "command": "a", "hint": "Use 'a' to append text after the cursor." },
-    { "task": "Append at the end of the line", "command": "A", "hint": "Use 'A' to append text at the end of the line." },
-    { "task": "Open a new line below the current line", "command": "o", "hint": "Use 'o' to insert a new line below." },
-    { "task": "Open a new line above the current line", "command": "O", "hint": "Use 'O' to insert a new line above." },
-    { "task": "Append at the end of the word", "command": "ea", "hint": "Use 'ea' to append text at the end of the current word." }
+
+  "Cursor movement": [
+    {
+      "task": "Move cursor left/down/up/right",
+      "command": "h, j, k, l",
+      "hint": "Basic cursor motions in normal mode."
+    },
+    {
+      "task": "Move cursor down/up visually (wrapped lines)",
+      "command": "gj, gk",
+      "hint": "Use 'gj'/'gk' to move through wrapped text lines."
+    },
+    {
+      "task": "Move to top/middle/bottom of screen",
+      "command": "H, M, L",
+      "hint": "Position cursor at top, middle, or bottom of the current window."
+    },
+    {
+      "task": "Jump forwards/backwards to start of word",
+      "command": "w, b",
+      "hint": "Use 'w' to jump forward, 'b' to jump backward to the start of a word."
+    },
+    {
+      "task": "Jump forwards/backwards to start of word (punctuation-aware)",
+      "command": "W, B",
+      "hint": "'W' and 'B' treat punctuation as separate words."
+    },
+    {
+      "task": "Jump forwards/backwards to end of word",
+      "command": "e, ge",
+      "hint": "'e' jumps forward, 'ge' jumps backward to the end of a word."
+    },
+    {
+      "task": "Jump forwards/backwards to end of word (punctuation-aware)",
+      "command": "E, gE",
+      "hint": "Like 'e'/'ge', but treat punctuation as separate words."
+    },
+    {
+      "task": "Move to matching pair of parentheses or brackets",
+      "command": "%",
+      "hint": "Use '%' on a bracket/paren to jump to its match."
+    },
+    {
+      "task": "Jump to start of line / first non-blank / end of line",
+      "command": "0, ^, $",
+      "hint": "0 jumps to column 0, ^ jumps to first non-blank, $ jumps to end."
+    },
+    {
+      "task": "Go to first/last line of file",
+      "command": "gg, G",
+      "hint": "'gg' goes to line 1; 'G' goes to the last line."
+    },
+    {
+      "task": "Go to specific line (e.g., 5)",
+      "command": "5G or 5gg",
+      "hint": "Use a number prefix with 'G' or 'gg' to jump to that line."
+    },
+    {
+      "task": "Move to local/global declaration",
+      "command": "gd, gD",
+      "hint": "Useful in code to jump to variable declarations."
+    },
+    {
+      "task": "Jump to next/previous occurrence of character x",
+      "command": "fx, Fx",
+      "hint": "'fx' moves forward, 'Fx' moves backward to 'x' in the current line."
+    },
+    {
+      "task": "Jump until just before/after next/previous occurrence of x",
+      "command": "tx, Tx",
+      "hint": "'tx' or 'Tx' stops right before or after 'x'."
+    },
+    {
+      "task": "Repeat last f/t/F/T motion forward or backward",
+      "command": ";, ,",
+      "hint": "';' repeats forward, ',' repeats backward."
+    },
+    {
+      "task": "Jump paragraphs or code blocks",
+      "command": "}, {",
+      "hint": "Moves to the next or previous paragraph/code block."
+    },
+    {
+      "task": "Center/current line at top/bottom of screen",
+      "command": "zz, zt, zb",
+      "hint": "Scrolls window so the cursor line is centered, at top, or at bottom."
+    },
+    {
+      "task": "Scroll screen down/up one line (cursor stays)",
+      "command": "Ctrl+e, Ctrl+y",
+      "hint": "Lets you nudge the view without moving the cursor."
+    },
+    {
+      "task": "Page up/down and half-page up/down",
+      "command": "Ctrl+b/f, Ctrl+d/u",
+      "hint": "Moves the view by pages or half-pages."
+    },
+    {
+      "task": "Repeat a motion multiple times",
+      "command": "(prefix) e.g. 4j",
+      "hint": "Use a number prefix to repeat a motion. '4j' = move down 4 lines."
+    }
   ],
-  "Editing Commands": [
-    { "task": "Replace a single character", "command": "rX", "hint": "Use 'r' followed by a character to replace the current character." },
-    { "task": "Replace text until escape is pressed", "command": "R", "hint": "Use 'R' to start replacing text until ESC is pressed." },
-    { "task": "Undo the last change", "command": "u", "hint": "Use 'u' to undo the last change." },
-    { "task": "Redo the last undone change", "command": "CTRL-R", "hint": "Use 'CTRL-R' to redo the last undone change." },
-    { "task": "Join the current line with the next", "command": "J", "hint": "Use 'J' to join the current line with the next line." },
-    { "task": "Transpose two characters", "command": "xp", "hint": "Use 'xp' to transpose the character under the cursor and the next one." },
-    { "task": "Repeat the last command", "command": ".", "hint": "Use '.' to repeat the last command." },
-    { "task": "Change text from cursor to the end of the line", "command": "C", "hint": "Use 'C' to change text from the cursor to the end of the line." },
-    { "task": "Delete the current line", "command": "dd", "hint": "Use 'dd' to delete the entire current line." },
-    { "task": "Delete from the cursor to the end of the line", "command": "D", "hint": "Use 'D' to delete from the cursor to the end of the line." }
+
+  "Insert mode": [
+    {
+      "task": "Insert before/at beginning of line",
+      "command": "i, I",
+      "hint": "Enter insert mode at cursor or at start of the line."
+    },
+    {
+      "task": "Append after cursor/at end of line",
+      "command": "a, A",
+      "hint": "Enter insert mode just after the cursor or at line end."
+    },
+    {
+      "task": "Open new line below/above",
+      "command": "o, O",
+      "hint": "'o' inserts a line below; 'O' inserts a line above."
+    },
+    {
+      "task": "Insert at end of current word",
+      "command": "ea",
+      "hint": "'ea' moves you to the end of the word and starts insert mode."
+    },
+    {
+      "task": "Delete character/word before cursor in insert mode",
+      "command": "Ctrl+h, Ctrl+w",
+      "hint": "Handy for quick fixes without leaving insert mode."
+    },
+    {
+      "task": "Add a line break in insert mode",
+      "command": "Ctrl+j",
+      "hint": "Inserts a newline at the cursor position."
+    },
+    {
+      "task": "Indent/de-indent line in insert mode",
+      "command": "Ctrl+t, Ctrl+d",
+      "hint": "Shifts the current line right or left by 'shiftwidth'."
+    },
+    {
+      "task": "Auto-complete next/previous match",
+      "command": "Ctrl+n, Ctrl+p",
+      "hint": "Cycles through possible completions (from buffers, etc.)."
+    },
+    {
+      "task": "Insert register contents",
+      "command": "Ctrl+r x",
+      "hint": "Inserts text from register 'x'."
+    },
+    {
+      "task": "Temporary normal mode command",
+      "command": "Ctrl+o x",
+      "hint": "Executes one normal-mode command x, then returns to insert mode."
+    },
+    {
+      "task": "Exit insert mode",
+      "command": "Esc or Ctrl+c",
+      "hint": "Stops inserting and returns to normal mode."
+    }
   ],
-  "Search Commands": [
-    { "task": "Search for a pattern forward", "command": "/pattern", "hint": "Use '/pattern' to search forward for a pattern." },
-    { "task": "Search for a pattern backward", "command": "?pattern", "hint": "Use '?pattern' to search backward for a pattern." },
-    { "task": "Repeat the last search forward", "command": "n", "hint": "Use 'n' to repeat the last search forward." },
-    { "task": "Repeat the last search backward", "command": "N", "hint": "Use 'N' to repeat the last search backward." },
-    { "task": "Remove search highlights", "command": ":noh", "hint": "Use ':noh' to remove search highlights." }
+
+  "Editing": [
+    {
+      "task": "Replace a single character",
+      "command": "r",
+      "hint": "Press 'r' followed by a character to replace one character under cursor."
+    },
+    {
+      "task": "Replace multiple characters",
+      "command": "R",
+      "hint": "Type in place until pressing Esc."
+    },
+    {
+      "task": "Join line below with current line (with space)",
+      "command": "J",
+      "hint": "Merges two lines into one, separated by a space."
+    },
+    {
+      "task": "Join line below with current line (no space)",
+      "command": "gJ",
+      "hint": "Merges lines without adding any space."
+    },
+    {
+      "task": "Reflow paragraph",
+      "command": "gwip",
+      "hint": "Reformats the current paragraph's text to a proper width."
+    },
+    {
+      "task": "Toggle case / lowercase / uppercase",
+      "command": "g~, gu, gU",
+      "hint": "Apply these commands with a motion (e.g. gUw)."
+    },
+    {
+      "task": "Change (replace) entire line",
+      "command": "cc",
+      "hint": "Deletes line, then enters insert mode."
+    },
+    {
+      "task": "Change until end of line",
+      "command": "c$ or C",
+      "hint": "Deletes from cursor to line end and enters insert mode."
+    },
+    {
+      "task": "Change entire word",
+      "command": "ciw",
+      "hint": "Deletes the whole word under the cursor and enters insert mode."
+    },
+    {
+      "task": "Change from cursor to end of word",
+      "command": "cw or ce",
+      "hint": "Short for 'change word/end', then insert."
+    },
+    {
+      "task": "Delete character and insert text",
+      "command": "s",
+      "hint": "Same as 'cl' (change a single character)."
+    },
+    {
+      "task": "Delete line and insert",
+      "command": "S",
+      "hint": "Same as 'cc' (change the whole line)."
+    },
+    {
+      "task": "Transpose two letters",
+      "command": "xp",
+      "hint": "Deletes the character under cursor and pastes it after the next."
+    },
+    {
+      "task": "Undo / Redo",
+      "command": "u, Ctrl+r",
+      "hint": "'u' undoes last change, 'Ctrl+r' redoes it."
+    },
+    {
+      "task": "Repeat last command",
+      "command": ".",
+      "hint": "Reapplies the most recent editing action."
+    }
   ],
-  "Visual Mode Commands": [
-    { "task": "Start visual mode", "command": "v", "hint": "Use 'v' to start visual mode." },
-    { "task": "Start visual line mode", "command": "V", "hint": "Use 'V' to start visual line mode." },
-    { "task": "Start visual block mode", "command": "CTRL-V", "hint": "Use 'CTRL-V' to start visual block mode." }
+
+  "Marking text (visual mode)": [
+    {
+      "task": "Start character/linewise/block visual mode",
+      "command": "v, V, Ctrl+v",
+      "hint": "'v' for chars, 'V' for lines, 'Ctrl+v' for rectangular blocks."
+    },
+    {
+      "task": "Move to other end/corner of the selection",
+      "command": "o, O",
+      "hint": "'o' jumps to opposite end, 'O' in block mode jumps to opposite corner."
+    },
+    {
+      "task": "Select a word/block/tags",
+      "command": "aw, ab, aB, at",
+      "hint": "'a' selects including surrounding spaces or brackets/tags."
+    },
+    {
+      "task": "Select inner word/block/tags",
+      "command": "iw, ib, iB, it",
+      "hint": "'i' selects inside without the surrounding characters."
+    },
+    {
+      "task": "Exit visual mode",
+      "command": "Esc or Ctrl+c",
+      "hint": "Returns to normal mode."
+    }
   ],
+
+  "Visual commands": [
+    {
+      "task": "Indent / De-indent selected text",
+      "command": ">, <",
+      "hint": "Use '>' or '<' in visual mode to shift selected lines."
+    },
+    {
+      "task": "Yank or delete selected text",
+      "command": "y, d",
+      "hint": "Copy or cut the visually selected area."
+    },
+    {
+      "task": "Switch case / lowercase / uppercase",
+      "command": "~, u, U",
+      "hint": "Apply to the visually selected region."
+    }
+  ],
+
   "Registers": [
-    { "task": "Yank into register x", "command": "\"xy", "hint": "Use '\"xy' to yank into register x." },
-    { "task": "Paste from register x", "command": "\"xp", "hint": "Use '\"xp' to paste from register x." },
-    { "task": "Yank into system clipboard", "command": "\"+y", "hint": "Use '\"+y' to yank into the system clipboard." },
-    { "task": "Paste from system clipboard", "command": "\"+p", "hint": "Use '\"+p' to paste from the system clipboard." }
+    {
+      "task": "Show registers content",
+      "command": ":reg[isters]",
+      "hint": "Lists all named registers and their contents."
+    },
+    {
+      "task": "Yank into register x",
+      "command": "\"xy",
+      "hint": "Use double-quote + register name + yank command."
+    },
+    {
+      "task": "Paste from register x",
+      "command": "\"xp",
+      "hint": "Double-quote + register name + 'p'."
+    },
+    {
+      "task": "Yank to/from system clipboard",
+      "command": "\"+y / \"+p",
+      "hint": "Use '+ register to interact with system clipboard (on most systems)."
+    }
+  ],
+
+  "Marks and positions": [
+    {
+      "task": "List all marks",
+      "command": ":marks",
+      "hint": "Displays all defined marks and their positions."
+    },
+    {
+      "task": "Set a mark named a",
+      "command": "ma",
+      "hint": "Marks current cursor position with 'a'."
+    },
+    {
+      "task": "Jump to position of mark a",
+      "command": "`a (backtick a)",
+      "hint": "Use backtick to jump to exact column; apostrophe jumps to line start."
+    },
+    {
+      "task": "Yank text to mark a",
+      "command": "y`a",
+      "hint": "Yanks text from cursor to the position of mark a."
+    },
+    {
+      "task": "Go to last exit / last edit / last change / last jump",
+      "command": "`0, `\", `., ``",
+      "hint": "Useful built-in marks: 0 = last Vim exit, \" = last file edit, . = last change, `` = last jump."
+    },
+    {
+      "task": "Show jumps / changes",
+      "command": ":ju[mps], :changes",
+      "hint": "Lists the jump or change history."
+    },
+    {
+      "task": "Go to newer/older position in jump/change list",
+      "command": "Ctrl+i / Ctrl+o, g, / g;",
+      "hint": "Ctrl+i is forward in jump list; Ctrl+o is back. 'g,' / 'g;' for changes."
+    },
+    {
+      "task": "Jump to tag under cursor",
+      "command": "Ctrl+]",
+      "hint": "For navigating code using ctags."
+    }
+  ],
+
+  "Macros": [
+    {
+      "task": "Record a macro into register a",
+      "command": "qa",
+      "hint": "Press 'q' + register to start recording, then commands, then 'q' again."
+    },
+    {
+      "task": "Stop recording macro",
+      "command": "q",
+      "hint": "Press 'q' to end the recording session."
+    },
+    {
+      "task": "Run macro from register a",
+      "command": "@a",
+      "hint": "Executes the commands recorded in register a."
+    },
+    {
+      "task": "Rerun last-run macro",
+      "command": "@@",
+      "hint": "Repeats the previously executed macro."
+    }
+  ],
+
+  "Cut and paste": [
+    {
+      "task": "Yank (copy) lines",
+      "command": "yy, 2yy",
+      "hint": "'yy' copies 1 line, '2yy' copies 2 lines."
+    },
+    {
+      "task": "Yank different word scopes",
+      "command": "yw, yiw, yaw",
+      "hint": "'yw' yanks to next word, 'yiw' yanks inner word, 'yaw' includes surrounding space."
+    },
+    {
+      "task": "Yank to end of line",
+      "command": "y$ or Y",
+      "hint": "Copies from cursor to the end of the line."
+    },
+    {
+      "task": "Paste after/before cursor",
+      "command": "p, P",
+      "hint": "Put the yanked text after or before the cursor."
+    },
+    {
+      "task": "Paste and leave cursor after the new text",
+      "command": "gp, gP",
+      "hint": "Similar to p/P, but moves the cursor to the end of the pasted text."
+    },
+    {
+      "task": "Delete (cut) lines",
+      "command": "dd, 2dd",
+      "hint": "'dd' cuts 1 line, '2dd' cuts 2 lines."
+    },
+    {
+      "task": "Delete word variations",
+      "command": "dw, diw, daw",
+      "hint": "dw cuts to next word, diw cuts inner word, daw includes surrounding space."
+    },
+    {
+      "task": "Delete specific line ranges",
+      "command": ":3,5d",
+      "hint": "Removes lines 3 through 5. Use ':.,$d' to remove from current line to EOF."
+    },
+    {
+      "task": "Delete all lines matching/not matching pattern",
+      "command": ":g/{pattern}/d, :g!/{pattern}/d",
+      "hint": "'g' removes lines containing pattern; 'g!' removes lines not containing pattern."
+    },
+    {
+      "task": "Delete to end of line",
+      "command": "d$ or D",
+      "hint": "Removes from cursor to line end."
+    },
+    {
+      "task": "Delete single character",
+      "command": "x",
+      "hint": "Removes the character under the cursor."
+    }
+  ],
+
+  "Indent text": [
+    {
+      "task": "Indent or de-indent one level",
+      "command": ">>, <<",
+      "hint": "Shifts line(s) in visual or normal mode by one 'shiftwidth'."
+    },
+    {
+      "task": "Indent/de-indent a block (on matching braces)",
+      "command": ">% or <%",
+      "hint": "Place cursor on a brace/bracket, then use these to shift the entire block."
+    },
+    {
+      "task": "Indent inner block",
+      "command": ">ib",
+      "hint": "Use with '()' to shift everything inside the parentheses."
+    },
+    {
+      "task": "Indent a block of tags",
+      "command": ">at",
+      "hint": "Select all content including <tag> ... </tag> boundaries."
+    },
+    {
+      "task": "Re-indent lines or entire block",
+      "command": "3==, =%, =iB",
+      "hint": "Use '==' for individual lines, or '=' with a motion/block to auto-indent."
+    },
+    {
+      "task": "Re-indent entire buffer",
+      "command": "gg=G",
+      "hint": "Go to top, re-indent until the end."
+    },
+    {
+      "task": "Paste and adjust indent",
+      "command": "]p",
+      "hint": "Pastes with indentation matching the current line."
+    }
+  ],
+
+  "Exiting": [
+    {
+      "task": "Write (save) without exiting",
+      "command": ":w",
+      "hint": "Saves the current changes to file but stays in Vim."
+    },
+    {
+      "task": "Write with sudo",
+      "command": ":w !sudo tee %",
+      "hint": "Lets you save a file you opened without permission by using sudo."
+    },
+    {
+      "task": "Save and quit",
+      "command": ":wq, :x, ZZ",
+      "hint": "Writes changes and then quits Vim."
+    },
+    {
+      "task": "Quit (no changes allowed)",
+      "command": ":q",
+      "hint": "Quits if there are no unsaved changes."
+    },
+    {
+      "task": "Force quit, discard changes",
+      "command": ":q! or ZQ",
+      "hint": "Quits without saving any changes."
+    },
+    {
+      "task": "Save and quit all tabs",
+      "command": ":wqa",
+      "hint": "Writes all open files and closes all tabs."
+    }
+  ],
+
+  "Search and replace": [
+    {
+      "task": "Search forward/backward for pattern",
+      "command": "/pattern, ?pattern",
+      "hint": "Use '/' for forward, '?' for backward searches."
+    },
+    {
+      "task": "Very magic search (regex without escapes)",
+      "command": "\\vpattern",
+      "hint": "Makes most characters have special meaning (regex) without backslashes."
+    },
+    {
+      "task": "Repeat search forward/backward",
+      "command": "n, N",
+      "hint": "'n' continues in the same direction, 'N' in the opposite direction."
+    },
+    {
+      "task": "Replace old with new globally",
+      "command": ":%s/old/new/g",
+      "hint": "Performs search and replace in the entire file."
+    },
+    {
+      "task": "Replace with confirmation",
+      "command": ":%s/old/new/gc",
+      "hint": "Prompts for 'y/n' on each match."
+    },
+    {
+      "task": "Remove search highlights",
+      "command": ":noh[lsearch]",
+      "hint": "Use ':noh' to clear the last search matches' highlighting."
+    }
+  ],
+
+  "Search in multiple files": [
+    {
+      "task": "Search for pattern in multiple files",
+      "command": ":vim[grep] /pattern/ {file}",
+      "hint": "Use ':vim[grep] /foo/ **/*' to search 'foo' across many files."
+    },
+    {
+      "task": "Jump to the next match",
+      "command": ":cn[ext]",
+      "hint": "Use ':cn' to navigate forward in the quickfix list."
+    },
+    {
+      "task": "Jump to the previous match",
+      "command": ":cp[revious]",
+      "hint": "Use ':cp' to navigate backward in the quickfix list."
+    },
+    {
+      "task": "Open a window containing the list of matches",
+      "command": ":cope[n]",
+      "hint": "Displays the quickfix list in a new window."
+    },
+    {
+      "task": "Close the quickfix window",
+      "command": ":ccl[ose]",
+      "hint": "Use ':ccl' to close the quickfix window."
+    }
+  ],
+
+  "Tabs": [
+    {
+      "task": "Open file in new tab",
+      "command": ":tabnew file",
+      "hint": "Creates a new tab with the specified file."
+    },
+    {
+      "task": "Move current split window to a new tab",
+      "command": "Ctrl+wT",
+      "hint": "Takes the active window out of the split into its own tab."
+    },
+    {
+      "task": "Go to next/previous tab",
+      "command": "gt, gT or :tabn, :tabp",
+      "hint": "Move among open tabs in Vim."
+    },
+    {
+      "task": "Go to tab number #",
+      "command": "#gt",
+      "hint": "For example, '3gt' jumps to the 3rd tab."
+    },
+    {
+      "task": "Reorder current tab to position #",
+      "command": ":tabm[ove] #",
+      "hint": "Index is 0-based; ':tabmove 0' moves this tab to the front."
+    },
+    {
+      "task": "Close current tab",
+      "command": ":tabc[lose]",
+      "hint": "Closes the active tab and all its windows."
+    },
+    {
+      "task": "Close all other tabs",
+      "command": ":tabo[nly]",
+      "hint": "Keeps the current tab open, closes all the others."
+    },
+    {
+      "task": "Run a command on all tabs",
+      "command": ":tabdo command",
+      "hint": "e.g., ':tabdo q' closes all tabs; be cautious with global commands."
+    }
+  ],
+
+  "Working with multiple files": [
+    {
+      "task": "Edit a file in new buffer",
+      "command": ":e[dit] file",
+      "hint": "Opens another file in the same Vim session (new buffer)."
+    },
+    {
+      "task": "Go to next/previous buffer",
+      "command": ":bn[ext], :bp[revious]",
+      "hint": "Cycles through open buffers in order."
+    },
+    {
+      "task": "Delete (close) a buffer",
+      "command": ":bd[elete]",
+      "hint": "Closes a buffer without closing the entire Vim."
+    },
+    {
+      "task": "Switch to buffer # or file",
+      "command": ":b[uffer]#, :b file",
+      "hint": "Jump to buffer by number or file name."
+    },
+    {
+      "task": "List all open buffers",
+      "command": ":ls or :buffers",
+      "hint": "Shows a numbered list of all open buffers."
+    },
+    {
+      "task": "Split window (horizontal/vertical) and open file",
+      "command": ":sp[lit] file, :vs[plit] file",
+      "hint": "'split' is horizontal; 'vsplit' is vertical."
+    },
+    {
+      "task": "Open all buffers in vertical splits / tabs",
+      "command": ":vert ba[ll], :tab ba[ll]",
+      "hint": "Spread all open buffers across vertical splits or tabs."
+    },
+    {
+      "task": "Split window horizontally/vertically",
+      "command": "Ctrl+ws, Ctrl+wv",
+      "hint": "Manually splits the current window."
+    },
+    {
+      "task": "Switch windows or quit a window",
+      "command": "Ctrl+ww, Ctrl+wq",
+      "hint": "Use Ctrl+w followed by w or q to switch or close a split."
+    },
+    {
+      "task": "Exchange current window with next",
+      "command": "Ctrl+wx",
+      "hint": "Swap layout positions of two splits."
+    },
+    {
+      "task": "Make all windows equal size",
+      "command": "Ctrl+w =",
+      "hint": "Auto-resizes all windows to the same width and height."
+    },
+    {
+      "task": "Move cursor to adjacent windows",
+      "command": "Ctrl+wh / l / j / k",
+      "hint": "Navigates among splits to the left/right/below/above."
+    },
+    {
+      "task": "Maximize current window to the left/right/bottom/top",
+      "command": "Ctrl+wH / L / J / K",
+      "hint": "Makes the current split full height or width in that direction."
+    }
   ]
 }
